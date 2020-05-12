@@ -1,37 +1,31 @@
-import React, { Component } from "react";
+import React, { useCallback, useRef } from "react";
 import { StyleSheet, View, Button } from "react-native";
 
-class Top extends Component {
-  shouldComponentUpdate () {
-    return false
-  }
-
-  render() {
+const Top (props) {
+    const parent = useRef(null)
+    const target1 = useRef(null)
+    const target2 = useRef(null)
+    const onPress = useCallback((target) => {
+        props.onPress(parent.current, target.current)
+    },[])
     return (
-      <View style={styles.container} ref={(parent) => {
-        this.parent = parent
-      }}>
+      <View style={styles.container} ref={parent}>
         <Button
           title={"Top Left"}
-          ref={target => {
-            this.target1 = target;
-          }}
+          ref={target1}
           onPress={() => {
-            this.props.onPress(this.parent, this.target1);
+            onPress(target1)
           }}
         />
         <Button
           title={"Top Right"}
-          ref={target => {
-            this.target2 = target;
-          }}
+          ref={target2}
           onPress={() => {
-            this.props.onPress(this.parent, this.target2);
+           onPress(target2)
           }}
         />
       </View>
     );
-  }
 }
 
 const styles = StyleSheet.create({
